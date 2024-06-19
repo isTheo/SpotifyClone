@@ -67,7 +67,6 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
                 self?.navigationController?.popViewController(animated: true)
                 self?.completionHandler?(success)
             }
-
         }
     }
     
