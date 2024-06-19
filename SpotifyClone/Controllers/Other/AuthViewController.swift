@@ -34,6 +34,12 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .systemBackground
         webView.navigationDelegate = self
         view.addSubview(webView)
+        
+        guard let url = AuthManager.shared.signInURL else {
+            return
+        }
+        //this line shows up the login page
+        webView.load(URLRequest(url: url))
     }
     
     
@@ -42,4 +48,30 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
         
         webView.frame = view.bounds
     }
+    
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        guard let url = webView.url else {
+            return
+        }
+        //exchange the code for the access token
+        guard let code = URLComponents(string: url.absoluteString)?.queryItems?.first(where: { $0.name == "code" })?.value else {
+            return
+        }
+        webView.isHidden = true
+        
+        print("Code: \(code)")
+        
+        AuthManager.shared.exchangeCodeForToken(code: code) { [weak self] success in
+            DispatchQueue.main.async {
+                self?.navigationController?.popViewController(animated: true)
+                self?.completionHandler?(success)
+            }
+
+        }
+    }
+    
+    
+    
+    
 }
