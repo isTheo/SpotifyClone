@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		95D8E9932C2B1B6500761F40 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D8E9922C2B1B6500761F40 /* AuthResponse.swift */; };
+		95D8E9952C2B3A8A00761F40 /* SettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D8E9942C2B3A8A00761F40 /* SettingsModels.swift */; };
 		95F032DB2C1CB1270047CD72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F032DA2C1CB1270047CD72 /* AppDelegate.swift */; };
 		95F032DD2C1CB1270047CD72 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F032DC2C1CB1270047CD72 /* SceneDelegate.swift */; };
 		95F032DF2C1CB1270047CD72 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F032DE2C1CB1270047CD72 /* HomeViewController.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		95D8E9922C2B1B6500761F40 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		95D8E9942C2B3A8A00761F40 /* SettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModels.swift; sourceTree = "<group>"; };
 		95F032D72C1CB1270047CD72 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F032DA2C1CB1270047CD72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95F032DC2C1CB1270047CD72 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				95F033182C1CB5C10047CD72 /* Artist.swift */,
 				95F0331A2C1CB5CA0047CD72 /* UserProfile.swift */,
 				95D8E9922C2B1B6500761F40 /* AuthResponse.swift */,
+				95D8E9942C2B3A8A00761F40 /* SettingsModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				95F0331D2C1CC4300047CD72 /* Extensions.swift in Sources */,
 				95F032FA2C1CB4560047CD72 /* LibraryViewController.swift in Sources */,
 				95F033192C1CB5C10047CD72 /* Artist.swift in Sources */,
+				95D8E9952C2B3A8A00761F40 /* SettingsModels.swift in Sources */,
 				95F033092C1CB50D0047CD72 /* PlaylistViewController.swift in Sources */,
 				95F032DD2C1CB1270047CD72 /* SceneDelegate.swift in Sources */,
 				95F033072C1CB5000047CD72 /* PlayerViewController.swift in Sources */,
