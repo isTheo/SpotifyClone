@@ -4,4 +4,5 @@ As the title says this will be a Spotify Clone app.
 With this project I'm trying to learn more about **MVVC**, **API calls** and building a **UI programmatically**.
 
 
-![Screenshot 2024-06-14 at 19 59 45](https://github.com/isTheo/SpotifyClone/assets/149708189/921d9515-df99-4a15-a370-18d0654b31f8)
+
+![Simulator Screen Recording - iPhone 14 - 2024-06-25 at 18 40 35](https://github.com/isTheo/SpotifyClone/assets/149708189/7d811811-89cf-421e-911d-f4d038cd5c98)
