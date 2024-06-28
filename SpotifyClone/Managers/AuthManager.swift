@@ -52,13 +52,13 @@ final class AuthManager {
     }
     
     private var shouldRefreshToken: Bool {
-        guard let expirationData = tokenExpirationDate else {
+        guard let expirationDate = tokenExpirationDate else {
             return false
         }
         
         let currentDate = Date()
         let fiveMinutes: TimeInterval = 300
-        return currentDate.addingTimeInterval(fiveMinutes) >= expirationData
+        return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
     
     
@@ -75,18 +75,14 @@ final class AuthManager {
         
         var components = URLComponents()
         components.queryItems = [
-            URLQueryItem(name: "grant_type",
-                         value: "authorization_code"),
-            URLQueryItem(name: "code",
-                         value: code),
-            URLQueryItem(name: "redirect_uri",
-                         value: Constants.redirectURI),
+            URLQueryItem(name: "grant_type", value: "authorization_code"),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
         ]
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded",
-                         forHTTPHeaderField: "Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = components.query?.data(using: .utf8)
         
         
@@ -98,12 +94,10 @@ final class AuthManager {
             return
         }
         
-        request.setValue("Basic \(base64String)",
-                         forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
-            guard let data = data,
-                  error == nil else {
+            guard let data = data, error == nil else {
                 completion(false)
                 return
             }
@@ -141,12 +135,15 @@ final class AuthManager {
             refreshIfNeeded { [weak self] success in
                 if let token = self?.accessToken, success {
                     completion(token)
+                } else {
+                    print("Failed to refresh token")
                 }
             }
             
         } else if let token = accessToken {
             completion(token)
         }
+        
         
     }
     
@@ -162,15 +159,18 @@ final class AuthManager {
         }
         
         guard let refreshToken = self.refreshToken else {
+            completion(false)
             return
         }
         
         //Refresh the token
         guard let url = URL(string: Constants.tokenAPIURL) else {
+            completion(false)
             return
         }
         
         refreshingToken = true
+        print("Refreshing token...")
         
         var components = URLComponents()
         components.queryItems = [
@@ -195,13 +195,17 @@ final class AuthManager {
             return
         }
         
-        request.setValue("Basic \(base64String)",
-                         forHTTPHeaderField: "Authorization")
+        request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             self?.refreshingToken = false
-            guard let data = data,
-                  error == nil else {
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                  print("HTTP Status: \(httpResponse.statusCode)")
+              }
+            
+            guard let data = data, error == nil else {
+                print("Failed to refresh token: \(error?.localizedDescription ?? "No error description")")
                 completion(false)
                 return
             }
@@ -209,11 +213,12 @@ final class AuthManager {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 self?.onRefreshBlocks.forEach { $0(result.access_token) }
+                self?.onRefreshBlocks.removeAll()
                 self?.cacheToken(result: result)
                 completion(true)
             }
             catch {
-                print(error.localizedDescription)
+                print("Failed to decode token response: \(error.localizedDescription)")
                 completion(false)
             }
         }
@@ -221,16 +226,18 @@ final class AuthManager {
         task.resume()
     }
     
+    
+    
     private func cacheToken(result: AuthResponse) {
-        UserDefaults.standard.setValue(result.access_token,
-                                       forKey: "access_token")
+        print("Caching token. Access token: \(result.access_token)")
+        
+        UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
         if let refresh_token = result.refresh_token {
-            UserDefaults.standard.setValue(refresh_token,
-                                           forKey: "refresh_token")
+            UserDefaults.standard.setValue(refresh_token, forKey: "refresh_token")
         }
         
-        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)),
-                                       forKey: "expiration")
+        
+        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expirationDate")
     }
     
     
