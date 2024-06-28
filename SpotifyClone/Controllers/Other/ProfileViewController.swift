@@ -13,7 +13,14 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Profile"
+        fetchProfile()
+        view.backgroundColor = .systemBackground
         
+        
+
+    }
+    
+    private func fetchProfile() {
         APICaller.shared.getCurrentUserProfile { result in
             switch result {
             case .success (let model):
@@ -22,7 +29,4 @@ class ProfileViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-
 }
