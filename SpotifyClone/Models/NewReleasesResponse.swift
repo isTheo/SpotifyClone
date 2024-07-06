@@ -20,19 +20,18 @@ struct AlbumsResponse: Codable {
 
 struct Album: Codable {
     let album_type: String
+    let available_markets: [String]
+    let id: String
+    let images: [APIImage]
+    let name: String
+    let release_date: String
+    let total_tracks: Int
+    let artist: [Artist]
 }
 
 
 
-{
-    albums =     {
-        href = "https://api.spotify.com/v1/browse/new-releases?offset=0&limit=2&locale=en-GB,en;q%3D0.9";
-        items =         (
-            
-        limit = 2;
-        next = "https://api.spotify.com/v1/browse/new-releases?offset=2&limit=2&locale=en-GB,en;q%3D0.9";
-        offset = 0;
-        previous = "<null>";
-        total = 100;
-    };
-}
+
+
+
+
