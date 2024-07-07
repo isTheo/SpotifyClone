@@ -27,11 +27,8 @@ class HomeViewController: UIViewController {
     
     
     private func fetchData() {
-        APICaller.shared.getNewReleases { result in
-            switch result {
-            case .success(let model): break
-            case .failure(let error): break
-            }
+        APICaller.shared.getRecommendedGenres() { _ in
+            //
         }
     }
     

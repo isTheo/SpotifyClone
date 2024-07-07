@@ -21,6 +21,9 @@ final class APICaller {
         case failedToGetData
     }
     
+    
+    
+    
     public func getCurrentUserProfile(completion: @escaping (Result <UserProfile, Error>) -> Void) {
         createRequest(
             with: URL(string: Constants.baseAPIURL + "/me"),
@@ -47,8 +50,14 @@ final class APICaller {
     }
     
     
-    public func getNewReleases(completion: @escaping (Result<NewReleasesResponse, Error>) -> Void ) {
-        createRequest(with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=2"), type: .GET) { request in
+    
+    
+    public func getNewReleases(completion: @escaping ((Result<NewReleasesResponse, Error>)) -> Void ) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/browse/new-releases?limit=50"),
+            type: .GET
+        
+        ) { request in
             let task = URLSession.shared.dataTask(with: request) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -68,6 +77,94 @@ final class APICaller {
             task.resume()
         }
     }
+    
+    
+    
+    
+    public func getFeaturedPlaylists (completion: @escaping ((Result<FeaturedPlaylistsResponse, Error>) -> Void)) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/browse/featured-playlists?limit=2"),
+            type: .GET
+        
+        ) { request in
+            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                
+                do {
+                    let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+                    completion(.success(result))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }
+            
+            task.resume()
+        }
+    }
+    
+    
+    
+    
+//    public func getRecommendations(completion: @escaping ((Result<String, Error>) -> Void)) {
+//        createRequest(
+//            with: URL(string: Constants.baseAPIURL + "/recommendations"),
+//            type: .GET
+//        
+//        ) { request in
+//            let task = URLSession.shared.dataTask(with: request) { data, _, error in
+//                guard let data = data, error == nil else {
+//                    completion(.failure(APIError.failedToGetData))
+//                    return
+//                }
+//                
+//                do {
+//                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+//                    print("json: \(result)")
+//                    //try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+//                    //completion(.success(result))
+//                }
+//                catch {
+//                    completion(.failure(error))
+//                }
+//            }
+//            
+//            task.resume()
+//        }
+//    }
+    
+    
+    
+    public func getRecommendedGenres(completion: @escaping ((Result<String, Error>) -> Void )) {
+        createRequest(
+            with: URL(string: Constants.baseAPIURL + "/recommendations/available-genre-seeds"),
+            type: .GET) { request in
+                let task = URLSession.shared.dataTask(with: request) { data, _, error in
+                    guard let data = data, error == nil else {
+                        completion(.failure(APIError.failedToGetData))
+                        return
+                    }
+                    
+                    do {
+                        let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                        print("json: \(result)")
+                        //try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: data)
+                        //completion(.success(result))
+                    }
+                    catch {
+                        completion(.failure(error))
+                    }
+                }
+                
+                task.resume()
+            }
+    }
+    
+    
+    
     
     
     
