@@ -91,6 +91,7 @@ class HomeViewController: UIViewController {
         group.enter()
         group.enter()
         group.enter()
+        print("Start fetching data")
         
         var newReleases: NewReleasesResponse?
         var featuredPlaylist: FeaturedPlaylistsResponse?
@@ -103,8 +104,10 @@ class HomeViewController: UIViewController {
             }
             
             switch result {
-            case .success(let model): newReleases = model
-            case .failure(let error): print(error.localizedDescription)
+            case .success(let model):
+                newReleases = model
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
         
@@ -115,8 +118,10 @@ class HomeViewController: UIViewController {
             }
             
             switch result {
-            case .success(let model): featuredPlaylist = model
-            case .failure(let error): print(error.localizedDescription)
+            case .success(let model):
+                featuredPlaylist = model
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
         
@@ -142,12 +147,16 @@ class HomeViewController: UIViewController {
                     }
                     
                     switch recommendedResults {
-                    case .success(let model): recommendations = model
-                    case .failure(let error): print(error.localizedDescription)
+                    case .success(let model):
+                        recommendations = model
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
                     }
                 }
                 
-            case .failure(let error): print(error.localizedDescription)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
         
@@ -155,12 +164,14 @@ class HomeViewController: UIViewController {
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
+                //fatalError("Models are nil")
                 return
             }
-            
-            self.configureModels(newAlbums: newAlbums,
-                                 playlists: playlists,
-                                 tracks: tracks
+            print("Configuring viewModels")
+            self.configureModels(
+                newAlbums: newAlbums,
+                playlists: playlists,
+                tracks: tracks
             )
         }
     }
@@ -172,16 +183,21 @@ class HomeViewController: UIViewController {
         playlists: [Playlist],
         tracks: [AudioTrack]
     ) {
-        sections.append(.newReleases(viewModels: [newAlbums.compactMap({
+        print(newAlbums.count)
+        print(playlists.count)
+        print(tracks.count)
+        sections.append(.newReleases(viewModels: newAlbums.compactMap({
             return NewReleasesCellViewModel(
                 name: $0.name,
                 artworkURL: URL(string: $0.images.first?.url ?? ""),
                 numberOfTracks: $0.total_tracks,
-                artistName: $0.artist.first?.name ?? "-")
-        })]))
+                artistName: $0.artist.first?.name ?? "-"
+            )
+        })))
         
         sections.append(.featuredPlaylists(viewModels: []))
         sections.append(.recommendedTracks(viewModels: []))
+        collectionView.reloadData()
     }
     
     
@@ -215,19 +231,46 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return sections.count
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        if indexPath.section == 0 {
-            cell.backgroundColor = .systemGreen
-        }
-        else if indexPath.section == 1 {
-            cell.backgroundColor = .systemPink
-        }
-        else if indexPath.section == 2 {
-            cell.backgroundColor = .systemBlue
+        
+        let type = sections[indexPath.section]
+        
+        switch type {
+        case.newReleases(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NewReleaseCollectionViewCell.identifier,
+                for: indexPath
+            ) as? NewReleaseCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let viewModel = viewModels[indexPath.row]
+            cell.backgroundColor = .red
+            return cell
+            
+        case.featuredPlaylists(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: FeaturedPlaylistCollectionViewCell.identifier,
+                for: indexPath
+            ) as? FeaturedPlaylistCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.backgroundColor = .blue
+            return cell
+            
+        case.recommendedTracks(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RecommendedTrackCollectionViewCell.identifier,
+                for: indexPath
+            ) as? NewReleaseCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.backgroundColor = .orange
+            return cell
         }
         
-        return cell
+        
     }
     
     
