@@ -142,9 +142,9 @@ class HomeViewController: UIViewController {
                 }
                 
                 APICaller.shared.getRecommendations(genres: seeds) { recommendedResults in
-                    defer {
-                        group.leave()
-                    }
+//                    defer {
+//                        group.leave()
+//                    }
                     
                     switch recommendedResults {
                     case .success(let model):
