@@ -75,6 +75,11 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         albumNameLabel.sizeToFit()
+        artistNameLabel.sizeToFit()
+        numberOfTracksLabel.sizeToFit()
+        
+        let imageSize: CGFloat = contentView.height - 10
+        albumCoverImageView.frame = CGRect(x: 5, y: 5, width: imageSize, height: imageSize)
     }
     
     

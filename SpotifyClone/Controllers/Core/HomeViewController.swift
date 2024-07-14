@@ -91,6 +91,7 @@ class HomeViewController: UIViewController {
         group.enter()
         group.enter()
         group.enter()
+        
         print("Start fetching data")
         
         var newReleases: NewReleasesResponse?
@@ -141,12 +142,12 @@ class HomeViewController: UIViewController {
                     }
                 }
                 
-                APICaller.shared.getRecommendations(genres: seeds) { recommendedResults in
-//                    defer {
-//                        group.leave()
-//                    }
+                APICaller.shared.getRecommendations(genres: seeds) { recommendedResult in
+                    defer {
+                        group.leave()
+                    }
                     
-                    switch recommendedResults {
+                    switch recommendedResult {
                     case .success(let model):
                         recommendations = model
                         
@@ -191,10 +192,12 @@ class HomeViewController: UIViewController {
                 name: $0.name,
                 artworkURL: URL(string: $0.images.first?.url ?? ""),
                 numberOfTracks: $0.total_tracks,
-                artistName: $0.artist.first?.name ?? "-"
+                artistName: $0.artists.first?.name ?? "-"
             )
         })))
         
+        //Configure models
+        sections.append(.newReleases(viewModels: []))
         sections.append(.featuredPlaylists(viewModels: []))
         sections.append(.recommendedTracks(viewModels: []))
         collectionView.reloadData()
@@ -215,6 +218,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let type = sections[section]
+        
         switch type {
         case.newReleases(let viewModels):
             return viewModels.count
@@ -246,7 +250,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.row]
-            cell.backgroundColor = .red
+            
+            cell.configure(with: viewModel)
             return cell
             
         case.featuredPlaylists(let viewModels):
