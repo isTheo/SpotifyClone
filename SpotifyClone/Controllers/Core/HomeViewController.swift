@@ -128,9 +128,9 @@ class HomeViewController: UIViewController {
         
         //Recommendend tracks
         APICaller.shared.getRecommendedGenres() { result in
-            defer {
-                group.leave()
-            }
+//            defer {
+//                group.leave()
+//            }
             
             switch result {
             case .success(let model):
@@ -165,7 +165,7 @@ class HomeViewController: UIViewController {
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
-                //fatalError("Models are nil")
+                fatalError("Models are nil")
                 return
             }
             print("Configuring viewModels")
@@ -184,9 +184,8 @@ class HomeViewController: UIViewController {
         playlists: [Playlist],
         tracks: [AudioTrack]
     ) {
-        print(newAlbums.count)
-        print(playlists.count)
-        print(tracks.count)
+        
+        
         sections.append(.newReleases(viewModels: newAlbums.compactMap({
             return NewReleasesCellViewModel(
                 name: $0.name,
@@ -196,8 +195,6 @@ class HomeViewController: UIViewController {
             )
         })))
         
-        //Configure models
-        sections.append(.newReleases(viewModels: []))
         sections.append(.featuredPlaylists(viewModels: []))
         sections.append(.recommendedTracks(viewModels: []))
         collectionView.reloadData()
@@ -249,6 +246,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? NewReleaseCollectionViewCell else {
                 return UICollectionViewCell()
             }
+            
             let viewModel = viewModels[indexPath.row]
             
             cell.configure(with: viewModel)
