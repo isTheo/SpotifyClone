@@ -5,5 +5,11 @@
 ### With this project I'm trying to learn more about MVVM pattern, API calls and building a UI programmatically. ###
 
 
+### Step 1  
 
 ![Simulator Screen Recording - iPhone 14 - 2024-07-09 at 18 42 38](https://github.com/isTheo/SpotifyClone/assets/149708189/525c6339-8660-4ab0-8d81-420019565a79)
+
+
+### Step 2  
+
+![Simulator Screen Recording - iPhone 14 - 2024-07-15 at 00 57 00](https://github.com/user-attachments/assets/d109dc38-760e-456f-bd74-97223586496a)
