@@ -10,8 +10,8 @@ import UIKit
 
 enum BrowseSectionType {
     case newReleases(viewModels: [NewReleasesCellViewModel]) // 1
-    case featuredPlaylists(viewModels: [NewReleasesCellViewModel]) // 2
-    case recommendedTracks(viewModels: [NewReleasesCellViewModel]) // 3
+    case featuredPlaylists(viewModels: [FeaturedPlaylistCellViewModel]) // 2
+    case recommendedTracks(viewModels: [RecommendedTrackCellViewModel]) // 3
 }
 
 
@@ -100,9 +100,9 @@ class HomeViewController: UIViewController {
         
         //New releases
         APICaller.shared.getNewReleases { result in
-            defer {
-                group.leave()
-            }
+//            defer {
+//                group.leave()
+//            }
             
             switch result {
             case .success(let model):
@@ -128,9 +128,9 @@ class HomeViewController: UIViewController {
         
         //Recommendend tracks
         APICaller.shared.getRecommendedGenres() { result in
-//            defer {
-//                group.leave()
-//            }
+            defer {
+                group.leave()
+            }
             
             switch result {
             case .success(let model):
@@ -195,8 +195,21 @@ class HomeViewController: UIViewController {
             )
         })))
         
-        sections.append(.featuredPlaylists(viewModels: []))
-        sections.append(.recommendedTracks(viewModels: []))
+        sections.append(.featuredPlaylists(viewModels: playlists.compactMap({
+            return FeaturedPlaylistCellViewModel(
+                name: $0.name,
+                artworkURL: URL(string: $0.images.first?.url ?? ""),
+                creatorName: $0.owner.display_name
+            )
+        })))
+        
+        sections.append(.recommendedTracks(viewModels: tracks.compactMap({
+            return RecommendedTrackCellViewModel(
+                name: $0.name,
+                artistName: $0.artists.first?.name ?? "-",
+                artworkURL: URL(string: $0.album.images.first?.url ?? ""))
+        })))
+        
         collectionView.reloadData()
     }
     
@@ -259,17 +272,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? FeaturedPlaylistCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.backgroundColor = .blue
+            cell.configure(with: viewModels[indexPath.row])
             return cell
             
         case.recommendedTracks(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: RecommendedTrackCollectionViewCell.identifier,
                 for: indexPath
-            ) as? NewReleaseCollectionViewCell else {
+            ) as? RecommendedTrackCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.backgroundColor = .orange
+            cell.configure(with: viewModels[indexPath.row])
             return cell
         }
         

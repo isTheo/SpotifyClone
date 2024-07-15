@@ -12,17 +12,13 @@ import SDWebImage
 class NewReleaseCollectionViewCell: UICollectionViewCell {
     static let identifier = "NewReleaseCollectionViewCell"
     
-    let albumCoverImageView: UIImageView = {
+    private let albumCoverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo")
         imageView.contentMode = .scaleAspectFill
         
-        
-        
         return imageView
     }()
-    
-    
     
     
     private let albumNameLabel: UILabel = {
@@ -33,6 +29,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    
     private let numberOfTracksLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -40,6 +37,7 @@ class NewReleaseCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
+    
     
     private let artistNameLabel: UILabel = {
         let label = UILabel()
