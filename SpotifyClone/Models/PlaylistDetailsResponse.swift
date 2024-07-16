@@ -20,7 +20,7 @@ struct PlaylistDetailsResponse: Codable {
 
 
 struct PlaylistTracksResponse: Codable {
-    let item: [PlaylistItem]
+    let items: [PlaylistItem]
 }
 
 

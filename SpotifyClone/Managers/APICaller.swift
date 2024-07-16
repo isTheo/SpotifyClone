@@ -69,7 +69,8 @@ final class APICaller {
                 do {
                     let result = try JSONDecoder().decode(PlaylistDetailsResponse.self ,from: data)
                     completion(.success(result))
-                } catch {
+                }
+                catch {
                     completion(.failure(error))
                 }
             }
