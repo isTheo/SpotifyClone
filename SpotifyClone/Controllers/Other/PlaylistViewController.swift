@@ -202,4 +202,7 @@ extension PlaylistViewController: PlaylistHeaderCollectionReusableViewDelegate {
         // start play list play in queue
         print("Playing all")
     }
+    
+    
+    
 }
