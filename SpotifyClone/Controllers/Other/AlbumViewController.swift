@@ -47,7 +47,7 @@ class AlbumViewController: UIViewController {
     )
     
     
-    private var viewModels = [RecommendedTrackCellViewModel]()
+    private var viewModels = [AlbumCollectionViewCellViewModel]()
     private let album: Album
     
     
@@ -70,8 +70,8 @@ class AlbumViewController: UIViewController {
         view.addSubview(collectionView)
         
         collectionView.register(
-            RecommendedTrackCollectionViewCell.self,
-            forCellWithReuseIdentifier: RecommendedTrackCollectionViewCell.identifier
+            AlbumTrackCollectionViewCell.self,
+            forCellWithReuseIdentifier: AlbumTrackCollectionViewCell.identifier
         )
         
         collectionView.register(
@@ -89,10 +89,9 @@ class AlbumViewController: UIViewController {
                 switch result {
                 case .success(let model):
                     self?.viewModels = model.tracks.items.compactMap({
-                        RecommendedTrackCellViewModel(
+                        AlbumCollectionViewCellViewModel(
                             name: $0.name,
                             artistName: $0.track.artists.first?.name ?? "-",
-                            artworkURL: URL(string: $0.album?.images.first?.url ?? "")
                         )
                     })
                     self?.collectionView.reloadData()
@@ -130,9 +129,9 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: RecommendedTrackCollectionViewCell.identifier,
+            withReuseIdentifier: AlbumTrackCollectionViewCell.identifier,
             for: indexPath
-        ) as? RecommendedTrackCollectionViewCell else {
+        ) as? AlbumTrackCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: viewModels[indexPath.row])

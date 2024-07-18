@@ -16,7 +16,7 @@ final class AuthManager {
     private var refreshingToken = false
     
     struct Constants {
-        static let clientID = "YOUR_CLIENT_ID"
+        static let clientID =  "YOUR_CLIENT_ID"
         static let clientSecret = "YOUR_CLIENT_SECRET"
 
         
