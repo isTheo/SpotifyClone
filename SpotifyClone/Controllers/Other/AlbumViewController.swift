@@ -91,7 +91,7 @@ class AlbumViewController: UIViewController {
                     self?.viewModels = model.tracks.items.compactMap({
                         AlbumCollectionViewCellViewModel(
                             name: $0.name,
-                            artistName: $0.track.artists.first?.name ?? "-",
+                            artistName: $0.track.artists.first?.name ?? "-"
                         )
                     })
                     self?.collectionView.reloadData()
@@ -155,13 +155,14 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let headerViewModel = PlaylistHeaderViewViewModel(
             name: album.name,
             ownerName: album.artists.first?.name,
-            description: "Release Date: \(album.release_date)",
+            description: "Release Date: \(String.formattedDate(string: album.release_date))",
             artworkURL: URL(string: album.images.first?.url ?? "")
         )
         header.configure(with: headerViewModel)
         header.delegate = self
         return header
     }
+    
     
     
     
