@@ -22,6 +22,7 @@ class AlbumViewController: UIViewController {
             item.contentInsets = NSDirectionalEdgeInsets(top: 1, leading: 2, bottom: 1, trailing: 2)
             
             
+            //Vertical Group inside of a horizontal group
             let group = NSCollectionLayoutGroup.vertical(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1.0),
@@ -48,6 +49,9 @@ class AlbumViewController: UIViewController {
     
     
     private var viewModels = [AlbumCollectionViewCellViewModel]()
+    
+    private var tracks = [AudioTrack]()
+    
     private let album: Album
     
     
@@ -83,15 +87,22 @@ class AlbumViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.delegate = self
         collectionView.dataSource = self
+        fetchData()
         
+    }
+    
+    
+    
+    func fetchData() {
         APICaller.shared.getAlbumDetails(for: album) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
+                    self?.tracks = model.tracks.items
                     self?.viewModels = model.tracks.items.compactMap({
                         AlbumCollectionViewCellViewModel(
                             name: $0.name,
-                            artistName: $0.track.artists.first?.name ?? "-"
+                            artistName: $0.artists.first?.name ?? "-"
                         )
                     })
                     self?.collectionView.reloadData()
@@ -102,9 +113,8 @@ class AlbumViewController: UIViewController {
                 }
             }
         }
-        
-        
     }
+    
     
     
     override func viewDidLayoutSubviews() {
