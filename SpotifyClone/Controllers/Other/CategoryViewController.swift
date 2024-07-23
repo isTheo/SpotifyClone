@@ -20,12 +20,13 @@ class CategoryViewController: UIViewController {
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(140)),
+                    heightDimension: .absolute(250)
+                ),
                 subitem: item,
                 count: 2
             )
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+            group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
             
             return NSCollectionLayoutSection(group: group)
     }))
@@ -81,7 +82,7 @@ class CategoryViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        collectionView.frame = view.hasAmbiguousLayout
+        collectionView.frame = view.bounds
     }
     
     
@@ -114,5 +115,14 @@ extension CategoryViewController: UICollectionViewDelegate, UICollectionViewData
         )
         )
         return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let vc = PlaylistViewController(playlist: playlists[indexPath.row])
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
