@@ -8,10 +8,14 @@
 import UIKit
 
 class SearchResultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
+    struct SearchSection {
+        let title: String
+        let results: [SearchResult]
+    }
     
     
-    private var results: [SearchResult] = []
+    private var sections: [SearchSection] = []
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -45,18 +49,35 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
     
     
     func update(with results: [SearchResult]) {
-        self.results = results
+        let artists = results.filter ({
+            switch $0 {
+            case .artist: return true
+            default: return false
+            }
+            
+        })
+        self.sections = [
+            SearchSection(title: "Artists", results: artists)
+        ]
+        
         tableView.reloadData()
         tableView.isHidden = results.isEmpty
     }
     
     
     
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count
+        return sections[section].results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let result = sections[indexPath.section]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "foo"
         
