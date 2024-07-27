@@ -58,6 +58,8 @@
 		95F835532C50388D00BF9DDF /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F835522C50388D00BF9DDF /* CategoryViewController.swift */; };
 		95F835552C51588200BF9DDF /* SearchResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F835542C51588200BF9DDF /* SearchResultResponse.swift */; };
 		95F835572C515A9200BF9DDF /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F835562C515A9200BF9DDF /* SearchResult.swift */; };
+		95F8355A2C559E6800BF9DDF /* SearchResultDefaultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F835592C559E6800BF9DDF /* SearchResultDefaultTableViewCell.swift */; };
+		95F8355C2C55A32D00BF9DDF /* SearchResultDefaultTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F8355B2C55A32D00BF9DDF /* SearchResultDefaultTableViewCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +117,8 @@
 		95F835522C50388D00BF9DDF /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		95F835542C51588200BF9DDF /* SearchResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultResponse.swift; sourceTree = "<group>"; };
 		95F835562C515A9200BF9DDF /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		95F835592C559E6800BF9DDF /* SearchResultDefaultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultDefaultTableViewCell.swift; sourceTree = "<group>"; };
+		95F8355B2C55A32D00BF9DDF /* SearchResultDefaultTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultDefaultTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		F67FC145E76B99B607385D51 /* Pods-SpotifyClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyClone.debug.xcconfig"; path = "Target Support Files/Pods-SpotifyClone/Pods-SpotifyClone.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +196,7 @@
 		95F032F02C1CB19C0047CD72 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				95F835582C559DF100BF9DDF /* SearchResultCells */,
 				958580DC2C3EAE1A00858DF8 /* Browse */,
 				95F032E52C1CB1280047CD72 /* LaunchScreen.storyboard */,
 				955DCBAD2C46A3AA00F2B823 /* PlaylistHeaderCollectionReusableView.swift */,
@@ -234,6 +239,7 @@
 				955DCBB12C46A81400F2B823 /* PlaylistHeaderViewViewModel.swift */,
 				95EF496A2C49AA8B008A2AD0 /* AlbumCollectionViewCellViewModel.swift */,
 				95F835502C5030F400BF9DDF /* CategoryCollectionViewCellViewModel.swift */,
+				95F8355B2C55A32D00BF9DDF /* SearchResultDefaultTableViewCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -284,6 +290,14 @@
 				95F835522C50388D00BF9DDF /* CategoryViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		95F835582C559DF100BF9DDF /* SearchResultCells */ = {
+			isa = PBXGroup;
+			children = (
+				95F835592C559E6800BF9DDF /* SearchResultDefaultTableViewCell.swift */,
+			);
+			path = SearchResultCells;
 			sourceTree = "<group>";
 		};
 		A0E3980B04A90D47E462AC19 /* Pods */ = {
@@ -427,6 +441,7 @@
 				95F033012C1CB4DC0047CD72 /* WelcomeViewController.swift in Sources */,
 				95F033052C1CB4F50047CD72 /* ProfileViewController.swift in Sources */,
 				95F032F62C1CB3E20047CD72 /* TabBarViewController.swift in Sources */,
+				95F8355A2C559E6800BF9DDF /* SearchResultDefaultTableViewCell.swift in Sources */,
 				958580DB2C3D9C9200858DF8 /* RecommendationResponse.swift in Sources */,
 				958580E22C3EAE9F00858DF8 /* RecommendedTrackCollectionViewCell.swift in Sources */,
 				95F033132C1CB57D0047CD72 /* HapticsManager.swift in Sources */,
@@ -437,6 +452,7 @@
 				958580D52C39BE6A00858DF8 /* APIImage.swift in Sources */,
 				95F033172C1CB5AD0047CD72 /* AudioTrack.swift in Sources */,
 				95F032DF2C1CB1270047CD72 /* HomeViewController.swift in Sources */,
+				95F8355C2C55A32D00BF9DDF /* SearchResultDefaultTableViewCellViewModel.swift in Sources */,
 				958580DE2C3EAE5500858DF8 /* NewReleaseCollectionViewCell.swift in Sources */,
 				95F032FF2C1CB4CA0047CD72 /* AuthViewController.swift in Sources */,
 				958580E02C3EAE7600858DF8 /* FeaturedPlaylistCollectionViewCell.swift in Sources */,

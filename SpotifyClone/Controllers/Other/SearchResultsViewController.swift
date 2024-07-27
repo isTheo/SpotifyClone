@@ -29,6 +29,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .systemBackground
+        tableView.register(SearchResultDefaultTableViewCell.self, forCellReuseIdentifier: SearchResultDefaultTableViewCell.identifier)
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "cell")
         tableView.isHidden = true
@@ -124,7 +125,8 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
         case .album(let model):
             cell.textLabel?.text = model.name
         case .track(let model):
-            cell.textLabel?.text =  model.name
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultDefaultTableViewCell.identifier, for: indexPath
+            ) as? 
         case .playlist(let model):
             cell.textLabel?.text =  model.name
         }
