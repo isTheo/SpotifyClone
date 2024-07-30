@@ -1,8 +1,8 @@
 //
-//  SearchResultDefaultTableViewCell.swift
+//  SearchResultSubtitleTableViewCell.swift
 //  SpotifyClone
 //
-//  Created by Matteo Orru on 27/07/24.
+//  Created by Matteo Orru on 28/07/24.
 //
 
 import UIKit
@@ -10,13 +10,21 @@ import SDWebImage
 
 
 
-class SearchResultDefaultTableViewCell: UITableViewCell {
+class SearchResultSubtitleTableViewCell: UITableViewCell {
     
-    static let identifier = "SearchResultDefaultTableViewCell"
+    static let identifier = "SearchResultSubtitleTableViewCell"
     
     
     private let label: UILabel  = {
         let label = UILabel()
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    
+    private let subtitleLabel: UILabel  = {
+        let label = UILabel()
+        label.textColor = .secondaryLabel
         label.numberOfLines = 1
         return label
     }()
@@ -33,6 +41,7 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
+        contentView.addSubview(subtitleLabel)
         contentView.addSubview(iconImageView)
         contentView.clipsToBounds = true
         accessoryType = .disclosureIndicator
@@ -56,9 +65,22 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
             width: imageSize,
             height: imageSize
         )
+        let labelHeight = contentView.height/2
         iconImageView.layer.cornerRadius = imageSize/2
         iconImageView.layer.masksToBounds = true
-        label.frame = CGRect(x: iconImageView.right+10, y: 0, width: contentView.width-iconImageView.right-15, height: contentView.height)
+        label.frame = CGRect(
+            x: iconImageView.right+10,
+            y: 0,
+            width: contentView.width-iconImageView.right-15,
+            height: labelHeight
+        )
+        
+        subtitleLabel.frame = CGRect(
+            x: iconImageView.right+10,
+            y: label.bottom,
+            width: contentView.width-iconImageView.right-15,
+            height: labelHeight
+        )
         
     }
     
@@ -67,6 +89,7 @@ class SearchResultDefaultTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         iconImageView.image = nil
+        subtitleLabel.text = nil
         label.text = nil
     }
     
