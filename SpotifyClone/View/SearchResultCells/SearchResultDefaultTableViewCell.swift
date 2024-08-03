@@ -9,13 +9,12 @@ import UIKit
 import SDWebImage
 
 
-
 class SearchResultDefaultTableViewCell: UITableViewCell {
     
     static let identifier = "SearchResultDefaultTableViewCell"
     
     
-    private let label: UILabel  = {
+    private let label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         return label

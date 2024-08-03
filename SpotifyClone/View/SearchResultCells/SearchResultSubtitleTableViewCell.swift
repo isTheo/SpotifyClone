@@ -15,14 +15,14 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     static let identifier = "SearchResultSubtitleTableViewCell"
     
     
-    private let label: UILabel  = {
+    private let label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         return label
     }()
     
     
-    private let subtitleLabel: UILabel  = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
         label.numberOfLines = 1
@@ -95,8 +95,9 @@ class SearchResultSubtitleTableViewCell: UITableViewCell {
     
     
     
-    func configure(with viewModel: SearchResultDefaultTableViewCellViewModel) {
+    func configure(with viewModel: SearchResultSubtitleTableViewCellViewModel) {
         label.text = viewModel.title
+        subtitleLabel.text = viewModel.title
         iconImageView.sd_setImage(with: viewModel.imageURL, completed: nil)
     }
     
