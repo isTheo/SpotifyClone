@@ -8,8 +8,16 @@
 import UIKit
 
 
+protocol PlayerControlsViewDelegate: AnyObject {
+    func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView)
+    func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
+    func playerControlsViewDidTapBackwardsButton(_ playerControlsView: PlayerControlsView)
+}
+
 
 final class PlayerControlsView: UIView {
+    
+    weak var delegate: PlayerControlsViewDelegate?
     
     private let volumeSlider: UISlider = {
         let slider = UISlider()
@@ -19,6 +27,7 @@ final class PlayerControlsView: UIView {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
+        label.text = "This Is My Song"
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         
@@ -27,6 +36,7 @@ final class PlayerControlsView: UIView {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
+        label.text = "Artist (ft. Some Other Artist)"
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textColor = .secondaryLabel
@@ -43,11 +53,11 @@ final class PlayerControlsView: UIView {
         return button
     }()
     
-    //to finish forward and playpause button
-    private let forwardButton: UIButton = {
+    
+    private let nextButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        let image = UIImage(systemName: "forward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
         button.setImage(image, for: .normal)
         
         return button
@@ -56,7 +66,7 @@ final class PlayerControlsView: UIView {
     private let playPauseButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        let image = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
         button.setImage(image, for: .normal)
         
         return button
@@ -65,7 +75,21 @@ final class PlayerControlsView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        backgroundColor = .clear
+        addSubview(nameLabel)
+        addSubview(subtitleLabel)
+        
+        addSubview(volumeSlider)
+        
+        addSubview(backButton)
+        addSubview(nextButton)
+        addSubview(playPauseButton)
+        
+        backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
+        playPauseButton.addTarget(self, action: #selector(didTapPlayPause), for: .touchUpInside)
+        
+        clipsToBounds = true
     }
     
     
@@ -73,7 +97,43 @@ final class PlayerControlsView: UIView {
         fatalError()
     }
     
+    
+    
+    
+    
+    @objc func didTapBack() {
+        delegate?.playerControlsViewDidTapBackwardsButton(self)
+    }
+    
+    @objc func didTapNext() {
+        delegate?.playerControlsViewDidTapForwardButton(self)
+    }
+    
+    @objc func didTapPlayPause() {
+        delegate?.playerControlsViewDidTapPlayPauseButton(self)
+    }
+    
+    
+    
+    
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        nameLabel.frame = CGRect(x: 0, y: 0, width: width, height: 50)
+        
+        subtitleLabel.frame = CGRect(x: 0, y: nameLabel.bottom+10, width: width, height: 50)
+        
+        volumeSlider.frame = CGRect(x: 10, y: subtitleLabel.bottom+20, width: width-20, height: 44)
+        
+        let buttonSize: CGFloat = 50
+        playPauseButton.frame = CGRect(x: (width - buttonSize)/2, y: volumeSlider.bottom+30, width: buttonSize, height: buttonSize)
+        
+        backButton.frame = CGRect(x: playPauseButton.left-80-buttonSize, y: playPauseButton.top, width: buttonSize, height: buttonSize)
+        
+        nextButton.frame = CGRect(x: playPauseButton.right+80, y: playPauseButton.top, width: buttonSize, height: buttonSize)
     }
+    
+    
+    
+    
 }
