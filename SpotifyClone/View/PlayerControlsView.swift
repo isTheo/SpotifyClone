@@ -14,6 +14,12 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playerControlsViewDidTapBackwardsButton(_ playerControlsView: PlayerControlsView)
 }
 
+struct PlayerControlsViewViewModel {
+    let title: String?
+    let subtitle: String?
+    
+}
+
 
 final class PlayerControlsView: UIView {
     
@@ -133,6 +139,12 @@ final class PlayerControlsView: UIView {
         nextButton.frame = CGRect(x: playPauseButton.right+80, y: playPauseButton.top, width: buttonSize, height: buttonSize)
     }
     
+    
+    
+    func configure(with viewModel: PlayerControlsViewViewModel) {
+        nameLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+    }
     
     
     
