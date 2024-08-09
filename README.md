@@ -15,4 +15,7 @@
 ![Simulator Screen Recording - iPhone 14 - 2024-07-15 at 00 57 00](https://github.com/user-attachments/assets/d109dc38-760e-456f-bd74-97223586496a)  
 
 
-![Simulator Screen Recording - iPhone 14 - 2024-07-16 at 16 00 40](https://github.com/user-attachments/assets/cadc0b99-d434-4ea1-9f7a-6c7f4cdf29c4)
+
+### Step 3  
+
+![Simulator Screen Recording - iPhone 14 - 2024-08-09 at 23 54 03](https://github.com/user-attachments/assets/4fd6b740-6d27-4b18-943a-9007ea702930)
