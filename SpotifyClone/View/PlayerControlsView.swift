@@ -23,6 +23,8 @@ struct PlayerControlsViewViewModel {
 
 final class PlayerControlsView: UIView {
     
+    private var isPlaying = true
+    
     weak var delegate: PlayerControlsViewDelegate?
     
     private let volumeSlider: UISlider = {
@@ -116,7 +118,13 @@ final class PlayerControlsView: UIView {
     }
     
     @objc func didTapPlayPause() {
+        self.isPlaying = !isPlaying
         delegate?.playerControlsViewDidTapPlayPauseButton(self)
+        
+        //update icon
+        let pause = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        let play = UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34, weight: .regular))
+        playPauseButton.setImage(isPlaying ? pause: play, for: .normal)
     }
     
     
