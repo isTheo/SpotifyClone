@@ -5,6 +5,7 @@
 //  Created by Matteo Orru on 06/08/24.
 //
 
+
 import UIKit
 
 
@@ -13,9 +14,7 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
     func playerControlsViewDidTapBackwardsButton(_ playerControlsView: PlayerControlsView)
     
-    func playerControlsView (_playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
-        
-    }
+    func playerControlsView (_ playerControlsView: PlayerControlsView, didSlideSlider value: Float)
 }
 
 struct PlayerControlsViewViewModel {
@@ -97,7 +96,7 @@ final class PlayerControlsView: UIView {
         addSubview(nextButton)
         addSubview(playPauseButton)
         
-        volumeSlider.addTarget(self, action: #selector(didTapPlayPause), for: .touchUpInside)
+        volumeSlider.addTarget(self, action: #selector(didSlideSlider), for: .touchUpInside)
         
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
@@ -112,6 +111,10 @@ final class PlayerControlsView: UIView {
     }
     
     
+    @objc func didSlideSlider(_ slider: UISlider) {
+        let value = slider.value
+        delegate?.playerControlsView(self, didSlideSlider: value)
+    }
     
     
     
