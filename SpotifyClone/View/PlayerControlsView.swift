@@ -12,6 +12,10 @@ protocol PlayerControlsViewDelegate: AnyObject {
     func playerControlsViewDidTapPlayPauseButton(_ playerControlsView: PlayerControlsView)
     func playerControlsViewDidTapForwardButton(_ playerControlsView: PlayerControlsView)
     func playerControlsViewDidTapBackwardsButton(_ playerControlsView: PlayerControlsView)
+    
+    func playerControlsView (_playerControlsView: PlayerControlsView, didSlideSlider value: Float) {
+        
+    }
 }
 
 struct PlayerControlsViewViewModel {
@@ -92,6 +96,8 @@ final class PlayerControlsView: UIView {
         addSubview(backButton)
         addSubview(nextButton)
         addSubview(playPauseButton)
+        
+        volumeSlider.addTarget(self, action: #selector(didTapPlayPause), for: .touchUpInside)
         
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
