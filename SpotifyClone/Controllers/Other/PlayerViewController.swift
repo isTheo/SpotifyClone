@@ -96,6 +96,11 @@ class PlayerViewController: UIViewController {
     }
     
     
+    func refreshUI() {
+        configure()
+    }
+    
+    
     
 }
 
