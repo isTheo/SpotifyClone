@@ -7,8 +7,19 @@
 
 import UIKit
 
+
+protocol LibraryToggleViewDelegate: AnyObject {
+    
+    func libraryToggleViewDidTapPlaylists(_ toggleView: LibraryToggleView)
+    func libraryToggleViewDidTapAlbums(_ toggleView: LibraryToggleView)
+    
+}
+
+
+
 class LibraryToggleView: UIView {
     
+    weak var delegate: LibraryToggleViewDelegate?
     
     private let playlistButton: UIButton = {
         let button = UIButton()
@@ -26,11 +37,18 @@ class LibraryToggleView: UIView {
     }()
     
     
+    private let indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
     
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .red
+        super.init(frame: frame)        
         
         addSubview(playlistButton)
         addSubview(albumsButton)
@@ -49,12 +67,12 @@ class LibraryToggleView: UIView {
     
     
     @objc func didTapPlaylists() {
-        
+        delegate?.libraryToggleViewDidTapPlaylists(self)
     }
     
     
     @objc func didTapAlbums() {
-        
+        delegate?.libraryToggleViewDidTapAlbums(self)
     }
     
     
