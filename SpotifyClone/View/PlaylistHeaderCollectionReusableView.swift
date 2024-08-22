@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 
-protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
+protocol Recommended: AnyObject {
     func playlistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView)
 }
 

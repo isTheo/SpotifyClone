@@ -13,7 +13,13 @@ class LibraryPlaylistsViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemPink
-        
+     
+        APICaller.shared.getCurrentUserPlaylists { result in
+            switch result {
+            case .success(let playlists): break
+            case .failure(let error): print(error.localizedDescription)
+            }
+        }
     }
     
     
