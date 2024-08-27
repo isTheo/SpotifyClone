@@ -8,6 +8,8 @@
 import UIKit
 
 class LibraryPlaylistsViewController: UIViewController {
+    
+    var playlists = [Playlist]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,9 +18,21 @@ class LibraryPlaylistsViewController: UIViewController {
      
         APICaller.shared.getCurrentUserPlaylists { result in
             switch result {
-            case .success(let playlists): break
+            case .success(let playlists):
+                self.playlists = playlists
+                self.updateUI()
             case .failure(let error): print(error.localizedDescription)
             }
+        }
+    }
+    
+    
+    
+    private func updateUI() {
+        if playlists.isEmpty {
+            //show label
+        } else {
+            //show table
         }
     }
     
