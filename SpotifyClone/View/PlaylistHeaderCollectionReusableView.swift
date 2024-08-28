@@ -9,9 +9,10 @@ import UIKit
 import SDWebImage
 
 
-protocol Recommended: AnyObject {
+protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
     func playlistHeaderCollectionReusableViewDidTapPlayAll(_ header: PlaylistHeaderCollectionReusableView)
 }
+
 
 final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
     
@@ -113,5 +114,9 @@ final class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
         descriptionLabel.text = viewModel.description
         imageView.sd_setImage(with: viewModel.artworkURL, completed: nil)
     }
- 
+    
+    
+    
+    
+    
 }
