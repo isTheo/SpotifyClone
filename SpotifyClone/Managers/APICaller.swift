@@ -133,7 +133,14 @@ final class APICaller {
                         
                         do {
                             let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                            print(result)
+                            if let response = result as? [String: Any], response["id"] as? String != nil {
+                                print("Created")
+                                completion(true)
+                            }
+                            else  {
+                                print("Failed to get id")
+                                completion(false)
+                            }
                         }
                         catch {
                             print(error.localizedDescription)
