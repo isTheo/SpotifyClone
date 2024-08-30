@@ -9,6 +9,6 @@ import Foundation
 
 
 struct LibraryPlaylistsResponse: Codable {
-    let item: [Playlist]
+    let items: [Playlist]
     
 }

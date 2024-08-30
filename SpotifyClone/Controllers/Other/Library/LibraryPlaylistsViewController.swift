@@ -14,16 +14,12 @@ class LibraryPlaylistsViewController: UIViewController {
     private let noPlaylistsView = ActionLabelView()
     
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
-        view.addSubview(noPlaylistsView)
         
         setUpNoPlaylistsView()
-        
-        fetchData()
+        fetchPlaylist()
     }
     
     
@@ -46,14 +42,16 @@ class LibraryPlaylistsViewController: UIViewController {
         )
     }
     
-    private func fetchData() {
+    
+    private func fetchPlaylist() {
         APICaller.shared.getCurrentUserPlaylists { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let playlists):
                     self?.playlists = playlists
                     self?.updateUI()
-                case .failure(let error): print(error.localizedDescription)
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
         }
@@ -66,6 +64,7 @@ class LibraryPlaylistsViewController: UIViewController {
             noPlaylistsView.isHidden = false
         } else {
             //show table
+            //noPlaylistsView.isHidden = true
         }
     }
     

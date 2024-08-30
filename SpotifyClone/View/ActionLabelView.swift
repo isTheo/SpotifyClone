@@ -34,7 +34,6 @@ class ActionLabelView: UIView {
     private let button: UIButton = {
         let button = UIButton()
         button.setTitleColor(.link, for: .normal)
-        
         return button
     }()
     
@@ -42,8 +41,9 @@ class ActionLabelView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        clipsToBounds = true        
-        isHidden = true
+        
+        clipsToBounds = true
+        isHidden = false
         addSubview(button)
         addSubview(label)
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)

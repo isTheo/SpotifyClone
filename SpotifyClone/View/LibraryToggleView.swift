@@ -9,26 +9,24 @@ import UIKit
 
 
 protocol LibraryToggleViewDelegate: AnyObject {
-    
     func libraryToggleViewDidTapPlaylists(_ toggleView: LibraryToggleView)
     func libraryToggleViewDidTapAlbums(_ toggleView: LibraryToggleView)
-    
 }
 
 
 
 class LibraryToggleView: UIView {
     
-    
     enum State {
         case playlist
         case album
     }
     
+    
     var state: State = .playlist
     
-    
     weak var delegate: LibraryToggleViewDelegate?
+    
     
     private let playlistButton: UIButton = {
         let button = UIButton()
@@ -48,7 +46,7 @@ class LibraryToggleView: UIView {
     
     private let indicatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGreen
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 4
         return view
@@ -104,12 +102,11 @@ class LibraryToggleView: UIView {
         albumsButton.frame = CGRect(x: playlistButton.right, y: 0, width: 100, height: 40)
         
         layoutIndicator()
-        
     }
     
     
+    
     func layoutIndicator() {
-        
         switch state {
         case .playlist:
             indicatorView.frame = CGRect(
@@ -130,7 +127,8 @@ class LibraryToggleView: UIView {
     }
     
     
-    func update (for state: State) {
+    
+    func update(for state: State) {
         self.state = state
         UIView.animate(withDuration: 0.2) {
             self.layoutIndicator()
