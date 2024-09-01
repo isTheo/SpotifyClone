@@ -179,7 +179,7 @@ class SearchResultsViewController: UIViewController, UITableViewDelegate, UITabl
             
             let viewModel = SearchResultSubtitleTableViewCellViewModel (
                 title: playlist.name,
-                subtitle: playlist.owner.display_name,
+                subtitle: playlist.owner.display_name ?? "",
                 imageURL: URL(string: playlist.images.first?.url ?? "")
             )
             cell.configure(with: viewModel)

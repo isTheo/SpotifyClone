@@ -117,6 +117,7 @@ final class APICaller {
             switch result {
             case .success(let profile):
                 let urlString = Constants.baseAPIURL + "/users/\(profile.id)/playlists"
+                print("This is the urlString -> \(urlString)")
                 
                 self?.createRequest(with: URL(string: urlString), type: .POST) { baseRequest in
                     var request = baseRequest
@@ -124,6 +125,7 @@ final class APICaller {
                         "name": name
                     ]
                     request.httpBody = try? JSONSerialization.data(withJSONObject: json, options: .fragmentsAllowed)
+                    print("Starting creation...")
                     
                     let task = URLSession.shared.dataTask(with: request) { data, _, error in
                         guard let data = data, error == nil else {
@@ -133,8 +135,8 @@ final class APICaller {
                         
                         do {
                             let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                            print("Created \(result)")
                             if let response = result as? [String: Any], response["id"] as? String != nil {
-                                print("Created")
                                 completion(true)
                             }
                             else  {
