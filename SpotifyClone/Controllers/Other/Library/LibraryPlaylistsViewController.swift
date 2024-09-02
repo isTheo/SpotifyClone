@@ -160,9 +160,22 @@ extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let playlist = playlists[indexPath.row]
+        let vc = PlaylistViewController(playlist: playlist)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
+    
     
     
     
