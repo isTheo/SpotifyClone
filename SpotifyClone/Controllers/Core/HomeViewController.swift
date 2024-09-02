@@ -74,6 +74,7 @@ class HomeViewController: UIViewController {
         view.addSubview(spinner)
         configureCollectionView()
         fetchData()
+        addLongTapGesture()
     }
     
     
@@ -81,6 +82,46 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
+    }
+    
+    
+    
+    
+    private func addLongTapGesture() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.addGestureRecognizer(gesture)
+    }
+    
+    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else {
+            return
+        }
+        
+        let touchPoint = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: touchPoint), indexPath.section == 2 else {
+            return
+        }
+        
+        
+        let model = tracks[indexPath.row]
+        let actionSheet = UIAlertController(
+            title: model.name,
+            message: "Would you like to add this to a playlist ?",
+            preferredStyle: .actionSheet
+        )
+        
+        actionSheet.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+        
+        actionSheet.addAction(UIAlertAction(title: "add to a playlist", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let vc = LibraryPlaylistsViewController()
+                vc.selectionHandler = { playlist in
+                    
+                }
+                
+                self?.present(vc, animated: true, completion: nil)
+            }
+        }))
     }
     
     
@@ -191,7 +232,7 @@ class HomeViewController: UIViewController {
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
                 fatalError("Models are nil")
-                return
+                
             }
             print("Configuring viewModels")
             self.configureModels(
