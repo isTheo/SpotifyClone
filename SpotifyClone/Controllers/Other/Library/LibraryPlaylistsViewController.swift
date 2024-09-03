@@ -35,6 +35,15 @@ class LibraryPlaylistsViewController: UIViewController {
         
         setUpNoPlaylistsView()
         fetchPlaylist()
+        
+        if selectionHandler != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
+        }
+    }
+    
+    
+    @objc func didTapClose() {
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -155,7 +164,7 @@ extension LibraryPlaylistsViewController: UITableViewDelegate, UITableViewDataSo
             with: SearchResultSubtitleTableViewCellViewModel(
                 title: playlist.name,
                 subtitle: playlist.owner.display_name,
-                imageURL: URL(string: playlist.images.first?.url ?? "")
+                imageURL: URL(string: playlist.images?.first?.url ?? "")
             )
         )
         return cell

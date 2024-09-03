@@ -53,9 +53,7 @@ class HomeViewController: UIViewController {
     
     
     
-    
     private var sections = [BrowseSectionType]()
-    
     
     
     
@@ -88,9 +86,11 @@ class HomeViewController: UIViewController {
     
     
     private func addLongTapGesture() {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        collectionView.isUserInteractionEnabled = true
         collectionView.addGestureRecognizer(gesture)
     }
+    
     
     @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began else {
@@ -98,30 +98,42 @@ class HomeViewController: UIViewController {
         }
         
         let touchPoint = gesture.location(in: collectionView)
+        print("point: \(touchPoint)")
+        
         guard let indexPath = collectionView.indexPathForItem(at: touchPoint), indexPath.section == 2 else {
             return
         }
         
         
         let model = tracks[indexPath.row]
+        
         let actionSheet = UIAlertController(
             title: model.name,
             message: "Would you like to add this to a playlist ?",
             preferredStyle: .actionSheet
         )
         
-        actionSheet.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        actionSheet.addAction(UIAlertAction(title: "add to a playlist", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "Add to a playlist", style: .default, handler: { [weak self] _ in
             DispatchQueue.main.async {
                 let vc = LibraryPlaylistsViewController()
                 vc.selectionHandler = { playlist in
-                    
+                    APICaller.shared.addTrackToPlaylist(
+                        track: model,
+                        playlist: playlist
+                    ) { success in
+                        print("Added to playlist success: \(success)")
+                    }
                 }
                 
-                self?.present(vc, animated: true, completion: nil)
+                vc.title = "Select Playlist"
+                self?.present(UINavigationController(rootViewController: vc),
+                              animated: true, completion: nil)
             }
         }))
+        
+        present(actionSheet, animated: true)
     }
     
     
@@ -268,7 +280,7 @@ class HomeViewController: UIViewController {
         sections.append(.featuredPlaylists(viewModels: playlists.compactMap({
             return FeaturedPlaylistCellViewModel(
                 name: $0.name,
-                artworkURL: URL(string: $0.images.first?.url ?? ""),
+                artworkURL: URL(string: $0.images?.first?.url ?? ""),
                 creatorName: $0.owner.display_name
             )
         })))
