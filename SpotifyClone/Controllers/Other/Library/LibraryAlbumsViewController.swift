@@ -23,6 +23,8 @@ class LibraryAlbumsViewController: UIViewController {
     }()
     
     
+    private var observer: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -32,7 +34,11 @@ class LibraryAlbumsViewController: UIViewController {
         view.addSubview(tableView)
         
         setUpNoAlbumsView()
-        fetchPlaylist()
+        fetchAlbums()
+        
+        observer = NotificationCenter.default.addObserver(forName: .albumSavedNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.fetchAlbums()
+        })
     }
     
     
@@ -44,7 +50,7 @@ class LibraryAlbumsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         noAlbumsView.frame = CGRect(x: (view.width-150)/2, y: (view.height-150)/2, width: 150, height: 150)
-        tableView.frame = view.bounds
+        tableView.frame = CGRect(x: 0, y: 0, width: view.width, height: view.height)
     }
     
     
@@ -62,7 +68,8 @@ class LibraryAlbumsViewController: UIViewController {
     
     
     
-    private func fetchPlaylist() {
+    private func fetchAlbums() {
+        albums.removeAll()
         APICaller.shared.getCurrentUserAlbums { [weak self] result in
             DispatchQueue.main.async {
                 switch result {

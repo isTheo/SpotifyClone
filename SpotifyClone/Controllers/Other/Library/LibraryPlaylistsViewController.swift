@@ -34,7 +34,7 @@ class LibraryPlaylistsViewController: UIViewController {
         view.addSubview(tableView)
         
         setUpNoPlaylistsView()
-        fetchPlaylist()
+        fetchPlaylists()
         
         if selectionHandler != nil {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
@@ -68,7 +68,7 @@ class LibraryPlaylistsViewController: UIViewController {
     }
     
     
-    private func fetchPlaylist() {
+    private func fetchPlaylists() {
         APICaller.shared.getCurrentUserPlaylists { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -118,7 +118,7 @@ class LibraryPlaylistsViewController: UIViewController {
             APICaller.shared.createPlaylist(with: text) { [weak self] success in
                 if success {
                     //refresh list of playlists
-                    self?.fetchPlaylist()
+                    self?.fetchPlaylists()
                 }
                 else {
                     print("Failed to create playlist")
