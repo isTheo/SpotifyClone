@@ -39,7 +39,7 @@ class WelcomeViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.font = .systemFont(ofSize: 32, weight: .semibold)
-        label.text = "Music\n for\n everyone."
+        label.text = "Music for everyone."
         return label
     }()
     
@@ -81,7 +81,7 @@ class WelcomeViewController: UIViewController {
             height: 50
         )
         
-        logoImageView.frame = CGRect(x: (view.width-120)/2, y: (view.height-200)/2, width: 120, height: 120)
+        logoImageView.frame = CGRect(x: (view.width-120)/2, y: (view.height-350)/2, width: 120, height: 120)
         label.frame = CGRect(x: 30, y: logoImageView.bottom+30, width: view.width-60, height: 150)
     }
     
